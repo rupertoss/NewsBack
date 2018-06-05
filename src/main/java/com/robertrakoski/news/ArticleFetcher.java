@@ -1,8 +1,8 @@
 package com.robertrakoski.news;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,10 +10,6 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.stereotype.Service;
 
@@ -24,7 +20,7 @@ class ArticleFetcher {
 	private static final String API_KEY = "0d75e948f6d94287b63e485b74145b79";
 	
 	List<Article> fetchArticles() throws Exception {
-		String url = NEWS_API_URL + "&apiKey=" + API_KEY;
+		String url = NEWS_API_URL + "&country=pl&category=technology&apiKey=" + API_KEY;
 		JsonObject jsonObject = readURLtoJsonObject(url);
 		List<Article> fetchedArticles = new LinkedList<>();
 		fetchedArticles = convertJsonObjectToArticles(jsonObject);
@@ -48,16 +44,27 @@ class ArticleFetcher {
 		JsonArray results;
 		results = jsonObject.getJsonArray("articles");
 		for (JsonObject result : results.getValuesAs(JsonObject.class)) {
-			 String json = result.toString();
-			 Article article = mapFromJson(json, Article.class);
-			 articles.add(article);
+			String id = result.getJsonObject("source").getString("id", "");
+			String name = result.getJsonObject("source").getString("name");
+			Source source = new Source(id, name);
+			String author = result.getString("author", "");
+			String title = result.getString("title");
+			String description = result.getString("description", "");
+			Instant date = Instant.parse(result.getString("publishedAt"));
+			String articleUrl = result.getString("url");
+			String imageUrl = result.getString("urlToImage", "");
+			articles.add(new Article(source, author, title, description, articleUrl, imageUrl, date));
+//			 String json = result.toString();
+//			 Article article = mapFromJson(json, Article.class);
+//			 articles.add(article);
 		}
 		return articles;
 	}
 	
-    private <T> T mapFromJson(String json, Class<T> clazz)
-            throws JsonParseException, JsonMappingException, IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(json, clazz);
-    }
+//    private <T> T mapFromJson(String json, Class<T> clazz)
+//            throws JsonParseException, JsonMappingException, IOException {
+//        ObjectMapper mapper = new ObjectMapper();
+//    	mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+//        return mapper.readValue(json, clazz);
+//    }
 }

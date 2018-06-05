@@ -24,26 +24,46 @@ class Article {
 	@JsonSerialize(using = InstantSerializer.class)
 	private Instant publishedAt;
 	
-	@JsonProperty("source")
-	String getSource() {
+	@JsonProperty("sourceName")
+	String getSourceName() {
 		return source.getName();
 	}
-	
+
+	protected Article(Source source, String author, String title, String description, String url, String urlToImage,
+			Instant publishedAt) {
+		this.source = source;
+		this.author = author;
+		this.title = title;
+		this.description = description;
+		this.url = url;
+		this.urlToImage = urlToImage;
+		this.publishedAt = publishedAt;
+	}
+
+	Source getSource() {
+		return source;
+	}
+
 	String getAuthor() {
 		return author;
 	}
+
 	String getTitle() {
 		return title;
 	}
+
 	String getDescription() {
 		return description;
 	}
+
 	String getUrl() {
 		return url;
 	}
+
 	String getUrlToImage() {
 		return urlToImage;
 	}
+
 	Instant getPublishedAt() {
 		return publishedAt;
 	}
@@ -53,9 +73,15 @@ class Source {
 	private String id;
 	private String name;
 	
+	Source(String id, String name) {
+		this.id = id;
+		this.name = name;
+	}
+
 	String getId() {
 		return id;
 	}
+
 	String getName() {
 		return name;
 	}

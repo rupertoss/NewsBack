@@ -4,6 +4,7 @@ import java.util.List;
 
 class ArticleResponseWrapper {
 	
+	
 	private String country;
 	private String category;
 	private List<Article> articles;
@@ -13,16 +14,16 @@ class ArticleResponseWrapper {
 		this.category = category;
 		this.articles = articles;
 	}
-	
-	String getCountry() {
+
+	public String getCountry() {
 		return country;
 	}
-	
-	String getCategory() {
+
+	public String getCategory() {
 		return category;
 	}
-	
-	List<Article> getArticles() {
+
+	public List<Article> getArticles() {
 		return articles;
 	}
 }
