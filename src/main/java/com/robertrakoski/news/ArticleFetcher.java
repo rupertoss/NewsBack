@@ -20,10 +20,29 @@ class ArticleFetcher {
 	private static final String API_KEY = "0d75e948f6d94287b63e485b74145b79";
 	
 	List<Article> fetchArticles(String country, String category) throws Exception {
-		String url = resolveURL(country, category);
-		JsonObject jsonObject = readURLtoJsonObject(url);
-		List<Article> fetchedArticles = convertJsonObjectToArticles(jsonObject);
+		List<Article> fetchedArticles = new LinkedList<>();
+		
+		try {
+			String url = resolveURL(country, category);
+			JsonObject jsonObject = readURLtoJsonObject(url);
+			fetchedArticles = convertJsonObjectToArticles(jsonObject);
+		} catch (Exception e) {
+			throw new Exception("Could not read data");
+		} finally {
+			if(fetchedArticles.size() == 0)
+				throw new Exception("Could not read data");
+		}
+		
 		return fetchedArticles;
+	}
+	
+	private String resolveURL(String country, String category) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(NEWS_API_URL)
+			.append("?country=").append(country)
+			.append("&category=").append(category)
+			.append("&apiKey=").append(API_KEY);
+		return sb.toString();
 	}
 	
 	private JsonObject readURLtoJsonObject(String urlString) throws Exception {
@@ -33,12 +52,12 @@ class ArticleFetcher {
 		try(InputStream inputStream = url.openStream();
 			JsonReader jsonReader = Json.createReader(inputStream)) {
 			jsonObject = jsonReader.readObject();
-		}
+		} 
 		
 		return jsonObject;
 	}
 	
-	private List<Article> convertJsonObjectToArticles(JsonObject jsonObject)  throws Exception {
+	private List<Article> convertJsonObjectToArticles(JsonObject jsonObject) {
 		List<Article> articles = new LinkedList<>();
 		JsonArray results;
 		results = jsonObject.getJsonArray("articles");
@@ -58,15 +77,6 @@ class ArticleFetcher {
 //			 articles.add(article);
 		}
 		return articles;
-	}
-	
-	private String resolveURL(String country, String category) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(NEWS_API_URL)
-			.append("?country=").append(country)
-			.append("&category=").append(category)
-			.append("&apiKey=").append(API_KEY);
-		return sb.toString();
 	}
 	
 //    private <T> T mapFromJson(String json, Class<T> clazz)
