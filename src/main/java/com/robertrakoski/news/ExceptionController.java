@@ -23,11 +23,11 @@ class ExceptionController {
 			this.errorClass = errorClass;
 		}
 
-		String getMessage() {
+		public String getMessage() {
 			return message;
 		}
 
-		String getErrorClass() {
+		public String getErrorClass() {
 			return errorClass;
 		}
 	}

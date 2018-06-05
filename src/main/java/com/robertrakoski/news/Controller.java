@@ -21,7 +21,7 @@ public class Controller {
 	ArticleFetcher articleFetcher;
 	
 	@GetMapping(value = "/{country}/{category}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ArticleResponseWrapper> getStatus(
+	public ResponseEntity<ArticleResponseWrapper> getArticles(
 			@PathVariable(value = "country") String country, @PathVariable(value = "category") String category) throws Exception {
 		List<Article> articles = articleFetcher.fetchArticles(country, category);
 		ArticleResponseWrapper response = new ArticleResponseWrapper(country, category, articles);
