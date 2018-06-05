@@ -16,14 +16,13 @@ import org.springframework.stereotype.Service;
 @Service
 class ArticleFetcher {
 
-	private static final String NEWS_API_URL = "https://newsapi.org/v2/top-headlines?category=technology";
+	private static final String NEWS_API_URL = "https://newsapi.org/v2/top-headlines";
 	private static final String API_KEY = "0d75e948f6d94287b63e485b74145b79";
 	
-	List<Article> fetchArticles() throws Exception {
-		String url = NEWS_API_URL + "&country=pl&category=technology&apiKey=" + API_KEY;
+	List<Article> fetchArticles(String country, String category) throws Exception {
+		String url = resolveURL(country, category);
 		JsonObject jsonObject = readURLtoJsonObject(url);
-		List<Article> fetchedArticles = new LinkedList<>();
-		fetchedArticles = convertJsonObjectToArticles(jsonObject);
+		List<Article> fetchedArticles = convertJsonObjectToArticles(jsonObject);
 		return fetchedArticles;
 	}
 	
@@ -59,6 +58,15 @@ class ArticleFetcher {
 //			 articles.add(article);
 		}
 		return articles;
+	}
+	
+	private String resolveURL(String country, String category) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(NEWS_API_URL)
+			.append("?country=").append(country)
+			.append("&category=").append(category)
+			.append("&apiKey=").append(API_KEY);
+		return sb.toString();
 	}
 	
 //    private <T> T mapFromJson(String json, Class<T> clazz)
