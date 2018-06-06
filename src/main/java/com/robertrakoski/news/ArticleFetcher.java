@@ -22,7 +22,8 @@ class ArticleFetcher {
 	List<Article> getArticlesByCountryAndCategory(String country, String category) throws Exception {
 		StringBuilder sb = new StringBuilder();
 		sb.append(NEWS_API_URL)
-			.append("?country=").append(country)
+			.append("?pagesize=100")
+			.append("&country=").append(country)
 			.append("&category=").append(category)
 			.append("&apiKey=").append(API_KEY);
 		String url = sb.toString();
@@ -33,7 +34,8 @@ class ArticleFetcher {
 	List<Article> getArticlesByQuery(String query) throws Exception {
 		StringBuilder sb = new StringBuilder();
 		sb.append(NEWS_API_URL)
-			.append("?q=").append(query)
+			.append("?pagesize=100")
+			.append("&q=").append(query)
 			.append("&apiKey=").append(API_KEY);
 		String url = sb.toString();
 		
@@ -79,11 +81,23 @@ class ArticleFetcher {
 			String author = result.getString("author", "");
 			String title = result.getString("title");
 			String description = result.getString("description", "");
-			Instant date = Instant.parse(result.getString("publishedAt"));
+			Instant date = resolveStringToDate(result.getString("publishedAt"));
 			String articleUrl = result.getString("url");
 			String imageUrl = result.getString("urlToImage", "");
 			articles.add(new Article(source, author, title, description, articleUrl, imageUrl, date));
 		}
 		return articles;
+	}
+	
+	private Instant resolveStringToDate(String string) {
+		String toDate = string;
+		if(!string.contains("Z")) {
+			if(string.contains("+")) {
+				int index = string.indexOf("+");
+				toDate = string.substring(0, index);
+			}
+			toDate = toDate + "Z";
+		}
+		return Instant.parse(toDate);
 	}
 }
