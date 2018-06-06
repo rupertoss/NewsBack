@@ -35,13 +35,21 @@ abstract class AbstractTest {
 		return new Article(source, author, title, description, articleUrl, imageUrl, date);
 	}
 	
-	ArticleResponseWrapper getStubArticleResponseWrapper() {
+	ArticleWrapper getStubArticleWrapperByCountryAndCategory() {
 		String country = "pl";
 		String category = "technology";
 		List<Article> articles = new LinkedList<>();
 		articles.add(getStub1Article());
 		articles.add(getStub2Article());
-		return new ArticleResponseWrapper(country, category, articles);
+		return new ArticleWrapper(articles).country(country).category(category);
+	}
+	
+	ArticleWrapper getStubArticleWrapperByQuery() {
+		String query = "ohio";
+		List<Article> articles = new LinkedList<>();
+		articles.add(getStub1Article());
+		articles.add(getStub2Article());
+		return new ArticleWrapper(articles).query(query);
 	}
 	
     String mapToJson(Object obj) throws JsonProcessingException {

@@ -23,13 +23,28 @@ public class ControllerIntegrationTest {
 	private MockMvc mvc;
 	
 	@Test
-	public void testGetArticles_shouldRespondStatus200_whenValidRequest() throws Exception {
+	public void testGetArticlesByCountryAndCategory_shouldRespondStatus200_whenValidRequest() throws Exception {
 		String country = "pl";
 		String category = "technology";
 		
 		String url = "/news/{country}/{category}";
 		
 		MvcResult result = mvc.perform(MockMvcRequestBuilders.get(url, country, category)).andReturn();
+		
+		int status = result.getResponse().getStatus();
+		String content = result.getResponse().getContentAsString();
+		
+		assertEquals(200, status);
+		assertTrue(content.trim().length() > 0);
+	}
+	
+	@Test
+	public void testGetArticlesByQuery_shouldRespondStatus200_whenValidRequest() throws Exception {
+		String query = "ohio";
+		
+		String url = "/news/{query}";
+		
+		MvcResult result = mvc.perform(MockMvcRequestBuilders.get(url, query)).andReturn();
 		
 		int status = result.getResponse().getStatus();
 		String content = result.getResponse().getContentAsString();

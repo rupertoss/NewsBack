@@ -21,10 +21,19 @@ public class Controller {
 	ArticleFetcher articleFetcher;
 	
 	@GetMapping(value = "/{country}/{category}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ArticleResponseWrapper> getArticles(
+	public ResponseEntity<ArticleWrapper> getArticles(
 			@PathVariable(value = "country") String country, @PathVariable(value = "category") String category) throws Exception {
-		List<Article> articles = articleFetcher.fetchArticles(country, category);
-		ArticleResponseWrapper response = new ArticleResponseWrapper(country, category, articles);
+		List<Article> articles = articleFetcher.getArticlesByCountryAndCategory(country, category);
+		ArticleWrapper response = new ArticleWrapper(articles).country(country).category(category);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
+	
+	@GetMapping(value = "/{query}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ArticleWrapper> getArticlesByQuery(
+			@PathVariable(value = "query") String query) throws Exception {
+		List<Article> articles = articleFetcher.getArticlesByQuery(query);
+		ArticleWrapper response = new ArticleWrapper(articles).query(query);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	
 }

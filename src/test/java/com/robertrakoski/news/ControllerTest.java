@@ -39,14 +39,14 @@ public class ControllerTest extends AbstractTest {
 	Controller controller;
 	
 	@Test
-	public void testGetArticles_shouldRespondStatus200_whenValidRequest() throws Exception {
+	public void testGetArticlesByCountryAndCategory_shouldRespondStatus200_whenValidRequest() throws Exception {
 		String country = "pl";
 		String category = "technology";
 		
-		List<Article> articles = getStubArticleResponseWrapper().getArticles();
-		String stubAsString = mapToJson(getStubArticleResponseWrapper());
+		List<Article> articles = getStubArticleWrapperByCountryAndCategory().getArticles();
+		String stubAsString = mapToJson(getStubArticleWrapperByCountryAndCategory());
 		
-		when(artFetch.fetchArticles(country, category)).thenReturn(articles);
+		when(artFetch.getArticlesByCountryAndCategory(country, category)).thenReturn(articles);
 		
 		String url = "/news/{country}/{category}";
 		
@@ -61,11 +61,32 @@ public class ControllerTest extends AbstractTest {
 	}
 	
 	@Test
+	public void testGetArticlesByQuery_shouldRespondStatus200_whenValidRequest() throws Exception {
+		String query = "ohio";
+		
+		List<Article> articles = getStubArticleWrapperByQuery().getArticles();
+		String stubAsString = mapToJson(getStubArticleWrapperByQuery());
+		
+		when(artFetch.getArticlesByQuery(query)).thenReturn(articles);
+		
+		String url = "/news/{query}";
+		
+		MvcResult result = mvc.perform(MockMvcRequestBuilders.get(url, query)).andReturn();
+		
+		int status = result.getResponse().getStatus();
+		String content = result.getResponse().getContentAsString();
+		
+		assertEquals(200, status);
+		assertTrue(content.trim().length() > 0);
+		assertTrue(content.equals(stubAsString));
+	}
+	
+	@Test
 	public void testGetArticles_shouldRespondStatus500_whenExceptionIsThrown() throws Exception {
 		String country = "pl";
 		String category = "technolosdfgy";
 		
-		when(artFetch.fetchArticles(country, category)).thenThrow(Exception.class);
+		when(artFetch.getArticlesByCountryAndCategory(country, category)).thenThrow(Exception.class);
 		
 		String url = "/news/{country}/{category}";
 		

@@ -12,10 +12,18 @@ public class ArticleFetcherTest {
 	private ArticleFetcher artFetch = new ArticleFetcher();
 	
 	@Test
-	public void shouldReturnArticleList_whenValidRequest() throws Exception {
+	public void testGetArticlesByCountryAndCategory_shouldReturnArticleList_whenValidRequest() throws Exception {
 		String country = "pl";
 		String category = "technology";
-		List<Article> articles = artFetch.fetchArticles(country, category);
+		List<Article> articles = artFetch.getArticlesByCountryAndCategory(country, category);
+		
+		assertTrue(articles.size() > 0);
+	}
+	
+	@Test
+	public void testGetArticlesByQuery_shouldReturnArticleList_whenValidRequest() throws Exception {
+		String query = "ohio";
+		List<Article> articles = artFetch.getArticlesByQuery(query);
 		
 		assertTrue(articles.size() > 0);
 	}
@@ -24,7 +32,7 @@ public class ArticleFetcherTest {
 	public void shouldThrowException_whenInvalidRequest() throws Exception {
 		String country = "unexistingCountry";
 		String category = "unexistingCategory";
-		artFetch.fetchArticles(country, category);
+		artFetch.getArticlesByCountryAndCategory(country, category);
 	}
 	
 }

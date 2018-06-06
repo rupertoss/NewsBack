@@ -19,32 +19,43 @@ class ArticleFetcher {
 	private static final String NEWS_API_URL = "https://newsapi.org/v2/top-headlines";
 	private static final String API_KEY = "0d75e948f6d94287b63e485b74145b79";
 	
-	List<Article> fetchArticles(String country, String category) throws Exception {
-		List<Article> fetchedArticles = new LinkedList<>();
-		
-		try {
-			String url = resolveURL(country, category);
-			JsonObject jsonObject = readURLtoJsonObject(url);
-			fetchedArticles = convertJsonObjectToArticles(jsonObject);
-		} catch (Exception e) {
-			throw new Exception("Could not read data");
-		} finally {
-			if(fetchedArticles.size() == 0)
-				throw new Exception("Could not read data");
-		}
-		
-		return fetchedArticles;
-	}
-	
-	private String resolveURL(String country, String category) {
+	List<Article> getArticlesByCountryAndCategory(String country, String category) throws Exception {
 		StringBuilder sb = new StringBuilder();
 		sb.append(NEWS_API_URL)
 			.append("?country=").append(country)
 			.append("&category=").append(category)
 			.append("&apiKey=").append(API_KEY);
-		return sb.toString();
+		String url = sb.toString();
+		
+		return fetchArticles(url);
 	}
 	
+	List<Article> getArticlesByQuery(String query) throws Exception {
+		StringBuilder sb = new StringBuilder();
+		sb.append(NEWS_API_URL)
+			.append("?q=").append(query)
+			.append("&apiKey=").append(API_KEY);
+		String url = sb.toString();
+		
+		return fetchArticles(url);
+	}
+	
+	private List<Article> fetchArticles(String url) throws Exception {
+		List<Article> articles = new LinkedList<>();
+		
+		try {
+			JsonObject jsonObject = readURLtoJsonObject(url);
+			articles = convertJsonObjectToArticles(jsonObject);
+		} catch (Exception e) {
+			throw new Exception("Could not read data");
+		} finally {
+			if(articles.size() == 0)
+				throw new Exception("Could not read data");
+		}
+		
+		return articles;
+	}
+
 	private JsonObject readURLtoJsonObject(String urlString) throws Exception {
 		URL url = new URL(urlString);
 		JsonObject jsonObject;
@@ -72,17 +83,7 @@ class ArticleFetcher {
 			String articleUrl = result.getString("url");
 			String imageUrl = result.getString("urlToImage", "");
 			articles.add(new Article(source, author, title, description, articleUrl, imageUrl, date));
-//			 String json = result.toString();
-//			 Article article = mapFromJson(json, Article.class);
-//			 articles.add(article);
 		}
 		return articles;
 	}
-	
-//    private <T> T mapFromJson(String json, Class<T> clazz)
-//            throws JsonParseException, JsonMappingException, IOException {
-//        ObjectMapper mapper = new ObjectMapper();
-//    	mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-//        return mapper.readValue(json, clazz);
-//    }
 }
