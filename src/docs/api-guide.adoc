@@ -1,0 +1,109 @@
+= REST News API Guide
+Robert Rąkoski;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+[[overview]]
+= Overview
+
+[[overview-http-verbs]]
+== HTTP verbs
+
+REST notes tries to adhere as closely as possible to standard HTTP and REST conventions in its
+use of HTTP verbs.
+
+|===
+| Verb | Usage
+
+| `GET`
+| Used to retrieve a resource
+|===
+
+[[overview-http-status-codes]]
+== HTTP status codes
+
+RESTful notes tries to adhere as closely as possible to standard HTTP and REST conventions in its
+use of HTTP status codes.
+
+|===
+| Status code | Usage
+
+| `200 OK`
+| The request completed successfully
+
+| `500 Internal Server Error`
+| The request failed, caused by server error or invalid request
+|===
+
+[[overview-hypermedia]]
+== Hypermedia
+
+RESTful Notes uses hypermedia and resources include links to other resources in their
+responses. Responses are in JSON format
+
+[[resources]]
+= Resources
+
+
+
+[[resources-article]]
+== Article
+
+The Article resource is used to show articles returned by user query.
+
+
+
+[[resources-article-getByCountryAndCategory]]
+=== Retrieving articles by country and category
+
+A `GET` request is used to get articles filtered by country and category
+
+==== Curl request
+
+include::{snippets}/get-articles-by-country-and-category/curl-request.adoc[]
+
+==== Response structure
+
+include::{snippets}/get-articles-by-country-and-category/response-fields.adoc[]
+
+==== Example response
+
+include::{snippets}/get-articles-by-country-and-category/http-response.adoc[]
+
+[[resources-article-getByQuery]]
+=== Retrieving articles by query
+
+A `GET` request is used to get articles filtered by query
+
+==== Curl request
+
+include::{snippets}/get-articles-by-query/curl-request.adoc[]
+
+==== Response structure
+
+include::{snippets}/get-articles-by-query/response-fields.adoc[]
+
+==== Example response
+
+include::{snippets}/get-articles-by-query/http-response.adoc[]
+
+[[resources-article-errors]]
+=== Errors when invalid request
+
+A `GET` request can fail by sending invalid request
+
+==== Curl request
+
+include::{snippets}/error-when-invalid-request/curl-request.adoc[]
+
+==== Response structure
+
+include::{snippets}/error-when-invalid-request/response-fields.adoc[]
+
+==== Example response
+
+include::{snippets}/error-when-invalid-request/http-response.adoc[]

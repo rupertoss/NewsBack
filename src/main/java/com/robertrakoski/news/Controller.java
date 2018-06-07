@@ -20,7 +20,7 @@ public class Controller {
 	@Autowired
 	ArticleFetcher articleFetcher;
 	
-	@GetMapping(value = "/{country}/{category}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/{country}/{category}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<ArticleWrapper> getArticles(
 			@PathVariable(value = "country") String country, @PathVariable(value = "category") String category) throws Exception {
 		List<Article> articles = articleFetcher.getArticlesByCountryAndCategory(country, category);
@@ -28,7 +28,7 @@ public class Controller {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/{query}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/{query}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<ArticleWrapper> getArticlesByQuery(
 			@PathVariable(value = "query") String query) throws Exception {
 		List<Article> articles = articleFetcher.getArticlesByQuery(query);
