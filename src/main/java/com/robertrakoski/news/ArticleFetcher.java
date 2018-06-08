@@ -3,6 +3,7 @@ package com.robertrakoski.news;
 import java.io.InputStream;
 import java.net.URL;
 import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -81,23 +82,11 @@ class ArticleFetcher {
 			String author = result.getString("author", "");
 			String title = result.getString("title");
 			String description = result.getString("description", "");
-			Instant date = resolveStringToDate(result.getString("publishedAt"));
+			Instant date = OffsetDateTime.parse(result.getString("publishedAt")).toInstant();
 			String articleUrl = result.getString("url");
 			String imageUrl = result.getString("urlToImage", "");
 			articles.add(new Article(source, author, title, description, articleUrl, imageUrl, date));
 		}
 		return articles;
-	}
-	
-	private Instant resolveStringToDate(String string) {
-		String toDate = string;
-		if(!string.contains("Z")) {
-			if(string.contains("+")) {
-				int index = string.indexOf("+");
-				toDate = string.substring(0, index);
-			}
-			toDate = toDate + "Z";
-		}
-		return Instant.parse(toDate);
 	}
 }
