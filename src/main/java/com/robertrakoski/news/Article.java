@@ -2,31 +2,44 @@ package com.robertrakoski.news;
 
 import java.time.Instant;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 class Article {
 	
-	@JsonIgnore
+	@JsonProperty("sourceName")
+	@JsonAlias("source")
+	@JsonSerialize(using = SourceSerializer.class)
 	private Source source;
+	
 	@JsonProperty("author")
 	private String author;
+	
 	@JsonProperty("title")
 	private String title;
+	
 	@JsonProperty("description")
 	private String description;
+	
 	@JsonProperty("articleUrl")
+	@JsonAlias("url")
 	private String url;
+	
 	@JsonProperty("imageUrl")
+	@JsonAlias("urlToImage")
 	private String urlToImage;
+	
 	@JsonProperty("date")
 	@JsonSerialize(using = InstantSerializer.class)
+	@JsonDeserialize(using = InstantDeserializer.class)
+	@JsonAlias("publishedAt")
 	private Instant publishedAt;
-	
-	@JsonProperty("sourceName")
-	String getSourceName() {
-		return source.getName();
+
+	Article() {
 	}
 
 	protected Article(Source source, String author, String title, String description, String url, String urlToImage,
@@ -69,20 +82,3 @@ class Article {
 	}
 }
 
-class Source {
-	private String id;
-	private String name;
-	
-	Source(String id, String name) {
-		this.id = id;
-		this.name = name;
-	}
-
-	String getId() {
-		return id;
-	}
-
-	String getName() {
-		return name;
-	}
-}

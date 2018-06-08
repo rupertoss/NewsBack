@@ -1,18 +1,12 @@
 package com.robertrakoski.news;
 
-import java.io.InputStream;
 import java.net.URL;
-import java.time.Instant;
-import java.time.OffsetDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 class ArticleFetcher {
@@ -45,48 +39,13 @@ class ArticleFetcher {
 	
 	private List<Article> fetchArticles(String url) throws Exception {
 		List<Article> articles = new LinkedList<>();
-		
-		try {
-			JsonObject jsonObject = readURLtoJsonObject(url);
-			articles = convertJsonObjectToArticles(jsonObject);
-		} catch (Exception e) {
-			throw new Exception("Could not read data");
-		} finally {
-			if(articles.size() == 0)
-				throw new Exception("Could not read data");
-		}
+			articles = urlJsontoArticles(new URL(url));
 		
 		return articles;
 	}
 
-	private JsonObject readURLtoJsonObject(String urlString) throws Exception {
-		URL url = new URL(urlString);
-		JsonObject jsonObject;
-		
-		try(InputStream inputStream = url.openStream();
-			JsonReader jsonReader = Json.createReader(inputStream)) {
-			jsonObject = jsonReader.readObject();
-		} 
-		
-		return jsonObject;
-	}
-	
-	private List<Article> convertJsonObjectToArticles(JsonObject jsonObject) {
-		List<Article> articles = new LinkedList<>();
-		JsonArray results;
-		results = jsonObject.getJsonArray("articles");
-		for (JsonObject result : results.getValuesAs(JsonObject.class)) {
-			String id = result.getJsonObject("source").getString("id", "");
-			String name = result.getJsonObject("source").getString("name");
-			Source source = new Source(id, name);
-			String author = result.getString("author", "");
-			String title = result.getString("title");
-			String description = result.getString("description", "");
-			Instant date = OffsetDateTime.parse(result.getString("publishedAt")).toInstant();
-			String articleUrl = result.getString("url");
-			String imageUrl = result.getString("urlToImage", "");
-			articles.add(new Article(source, author, title, description, articleUrl, imageUrl, date));
-		}
-		return articles;
+	private List<Article> urlJsontoArticles(URL url) throws Exception {
+		ArticleWrapper wrapper = new ObjectMapper().readValue(url, ArticleWrapper.class);
+		return wrapper.getArticles();
 	}
 }
