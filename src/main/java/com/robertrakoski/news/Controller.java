@@ -1,7 +1,5 @@
 package com.robertrakoski.news;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,17 +21,17 @@ public class Controller {
 	@GetMapping(value = "/{country}/{category}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<ArticleWrapper> getArticles(
 			@PathVariable(value = "country") String country, @PathVariable(value = "category") String category) throws Exception {
-		List<Article> articles = articleFetcher.getArticlesByCountryAndCategory(country, category);
-		ArticleWrapper response = new ArticleWrapper(articles).country(country).category(category);
-		return new ResponseEntity<>(response, HttpStatus.OK);
+		ArticleWrapper articleWrapper = articleFetcher.getArticlesByCountryAndCategory(country, category);
+		articleWrapper.country(country).category(category);
+		return new ResponseEntity<>(articleWrapper, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/{query}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<ArticleWrapper> getArticlesByQuery(
 			@PathVariable(value = "query") String query) throws Exception {
-		List<Article> articles = articleFetcher.getArticlesByQuery(query);
-		ArticleWrapper response = new ArticleWrapper(articles).query(query);
-		return new ResponseEntity<>(response, HttpStatus.OK);
+		ArticleWrapper articleWrapper = articleFetcher.getArticlesByQuery(query);
+		articleWrapper.query(query);
+		return new ResponseEntity<>(articleWrapper, HttpStatus.OK);
 	}
 	
 }

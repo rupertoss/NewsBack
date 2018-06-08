@@ -64,13 +64,13 @@ public class ControllerIntegrationTest {
 							fieldWithPath("country").description("The country of the articles"),
 							fieldWithPath("category").description("The category of the articles"),
 							fieldWithPath("articles").description("The list of articles"),
-							fieldWithPath("articles[].author").description("The author of the article"),
+							fieldWithPath("articles[].author").description("The author of the article").optional(),
 							fieldWithPath("articles[].title").description("The title of the article"),
-							fieldWithPath("articles[].description").description("The description of the article"),
+							fieldWithPath("articles[].description").description("The description of the article").optional(),
 							fieldWithPath("articles[].articleUrl").description("The hyperlink to the article"),
-							fieldWithPath("articles[].imageUrl").description("The hyperlink to the image of the article"),
+							fieldWithPath("articles[].imageUrl").description("The hyperlink to the image of the article").optional(),
 							fieldWithPath("articles[].date").description("The published date of the article"),
-							fieldWithPath("articles[].sourceName").description("The source of the article")),
+							fieldWithPath("articles[].sourceName").description("The source of the article").optional()),
 					pathParameters(
 							parameterWithName("country").description("The requested articles's country"),
 							parameterWithName("category").description("The requested articles's category"))));
@@ -89,13 +89,13 @@ public class ControllerIntegrationTest {
 				responseFields(
 						fieldWithPath("query").description("The query request"),
 						fieldWithPath("articles").description("The list of articles"),
-						fieldWithPath("articles[].author").description("The author of the article"),
+						fieldWithPath("articles[].author").description("The author of the article").optional(),
 						fieldWithPath("articles[].title").description("The title of the article"),
-						fieldWithPath("articles[].description").description("The description of the article"),
+						fieldWithPath("articles[].description").description("The description of the article").optional(),
 						fieldWithPath("articles[].articleUrl").description("The hyperlink to the article"),
-						fieldWithPath("articles[].imageUrl").description("The hyperlink to the image of the article"),
+						fieldWithPath("articles[].imageUrl").description("The hyperlink to the image of the article").optional(),
 						fieldWithPath("articles[].date").description("The published date of the article"),
-						fieldWithPath("articles[].sourceName").description("The source of the article")),
+						fieldWithPath("articles[].sourceName").description("The source of the article").optional()),
 				pathParameters(
 						parameterWithName("query").description("The query request"))));
 	}

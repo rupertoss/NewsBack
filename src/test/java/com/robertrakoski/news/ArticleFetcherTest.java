@@ -15,15 +15,15 @@ public class ArticleFetcherTest {
 	public void testGetArticlesByCountryAndCategory_shouldReturnArticleList_whenValidRequest() throws Exception {
 		String country = "pl";
 		String category = "technology";
-		List<Article> articles = artFetch.getArticlesByCountryAndCategory(country, category);
+		List<Article> articles = artFetch.getArticlesByCountryAndCategory(country, category).getArticles();
 		
 		assertTrue(articles.size() > 0);
 	}
 	
 	@Test
 	public void testGetArticlesByQuery_shouldReturnArticleList_whenValidRequest() throws Exception {
-		String query = "ohio";
-		List<Article> articles = artFetch.getArticlesByQuery(query);
+		String query = "world";
+		List<Article> articles = artFetch.getArticlesByQuery(query).getArticles();
 		
 		assertTrue(articles.size() > 0);
 	}

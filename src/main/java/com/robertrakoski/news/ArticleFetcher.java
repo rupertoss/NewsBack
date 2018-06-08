@@ -14,7 +14,7 @@ class ArticleFetcher {
 	private static final String NEWS_API_URL = "https://newsapi.org/v2/top-headlines";
 	private static final String API_KEY = "0d75e948f6d94287b63e485b74145b79";
 	
-	List<Article> getArticlesByCountryAndCategory(String country, String category) throws Exception {
+	ArticleWrapper getArticlesByCountryAndCategory(String country, String category) throws Exception {
 		StringBuilder sb = new StringBuilder();
 		sb.append(NEWS_API_URL)
 			.append("?pagesize=100")
@@ -26,7 +26,7 @@ class ArticleFetcher {
 		return fetchArticles(url);
 	}
 	
-	List<Article> getArticlesByQuery(String query) throws Exception {
+	ArticleWrapper getArticlesByQuery(String query) throws Exception {
 		StringBuilder sb = new StringBuilder();
 		sb.append(NEWS_API_URL)
 			.append("?pagesize=100")
@@ -37,15 +37,13 @@ class ArticleFetcher {
 		return fetchArticles(url);
 	}
 	
-	private List<Article> fetchArticles(String url) throws Exception {
-		List<Article> articles = new LinkedList<>();
-			articles = urlJsontoArticles(new URL(url));
-		
-		return articles;
-	}
-
-	private List<Article> urlJsontoArticles(URL url) throws Exception {
-		ArticleWrapper wrapper = new ObjectMapper().readValue(url, ArticleWrapper.class);
-		return wrapper.getArticles();
+	private ArticleWrapper fetchArticles(String urlString) throws Exception {
+			URL url = new URL(urlString);
+			ArticleWrapper articleWrapper = new ObjectMapper().readValue(url, ArticleWrapper.class);
+			
+			if(articleWrapper.getArticles().size() == 0) 
+				throw new Exception("Wrong query, articles list empty");
+			
+		return articleWrapper;
 	}
 }
