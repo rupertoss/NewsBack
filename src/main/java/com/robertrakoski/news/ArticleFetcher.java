@@ -1,8 +1,6 @@
 package com.robertrakoski.news;
 
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import org.springframework.stereotype.Service;
 

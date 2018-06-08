@@ -4,7 +4,8 @@ NewsBack is a backend service allowing to retrieve articles from newsapi.org
 
 ## API Guide Documentation
 
-Api Guide Documentation can be found src/docs/api-guide.html
+Api Guide Documentation, written by using asciidoctor, can be found src/docs/api-guide.html
+
 ## Getting Started
 
 This is REST API Java / Maven / Spring Boot application
