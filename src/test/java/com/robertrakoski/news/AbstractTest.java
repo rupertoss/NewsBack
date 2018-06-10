@@ -41,7 +41,7 @@ abstract class AbstractTest {
 		List<Article> articles = new LinkedList<>();
 		articles.add(getStub1Article());
 		articles.add(getStub2Article());
-		return new ArticleWrapper(articles).country(country).category(category);
+		return new ArticleWrapper(articles).setCountry(country).setCategory(category);
 	}
 	
 	ArticleWrapper getStubArticleWrapperByQuery() {
@@ -49,7 +49,7 @@ abstract class AbstractTest {
 		List<Article> articles = new LinkedList<>();
 		articles.add(getStub1Article());
 		articles.add(getStub2Article());
-		return new ArticleWrapper(articles).query(query);
+		return new ArticleWrapper(articles).setQuery(query);
 	}
 	
     String mapToJson(Object obj) throws JsonProcessingException {

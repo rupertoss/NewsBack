@@ -22,17 +22,17 @@ class ArticleWrapper {
 		this.articles = articles;
 	}
 	
-	ArticleWrapper country(String country) {
+	ArticleWrapper setCountry(String country) {
 		this.country = country;
 		return this;
 	}
 	
-	ArticleWrapper category(String category) {
+	ArticleWrapper setCategory(String category) {
 		this.category = category;
 		return this;
 	}
 
-	ArticleWrapper query(String query) {
+	ArticleWrapper setQuery(String query) {
 		this.query = query;
 		return this;
 	}

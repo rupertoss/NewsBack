@@ -2,7 +2,9 @@ package com.robertrakoski.news;
 
 import java.io.IOException;
 import java.time.Instant;
-import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -15,6 +17,6 @@ class InstantDeserializer extends JsonDeserializer<Instant> {
 	public Instant deserialize(JsonParser p, DeserializationContext ctxt)
 			throws IOException, JsonProcessingException {
 		
-		return OffsetDateTime.parse(p.getText()).toInstant();
+		return ZonedDateTime.parse(p.getText(), DateTimeFormatter.ISO_DATE_TIME.withZone(ZoneId.systemDefault())).toInstant();
 	}
 }

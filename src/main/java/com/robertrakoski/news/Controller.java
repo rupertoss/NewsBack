@@ -22,7 +22,7 @@ public class Controller {
 	public ResponseEntity<ArticleWrapper> getArticles(
 			@PathVariable(value = "country") String country, @PathVariable(value = "category") String category) throws Exception {
 		ArticleWrapper articleWrapper = articleFetcher.getArticlesByCountryAndCategory(country, category);
-		articleWrapper.country(country).category(category);
+		articleWrapper.setCountry(country).setCategory(category);
 		return new ResponseEntity<>(articleWrapper, HttpStatus.OK);
 	}
 	
@@ -30,7 +30,7 @@ public class Controller {
 	public ResponseEntity<ArticleWrapper> getArticlesByQuery(
 			@PathVariable(value = "query") String query) throws Exception {
 		ArticleWrapper articleWrapper = articleFetcher.getArticlesByQuery(query);
-		articleWrapper.query(query);
+		articleWrapper.setQuery(query);
 		return new ResponseEntity<>(articleWrapper, HttpStatus.OK);
 	}
 	
