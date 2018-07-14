@@ -8,6 +8,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 abstract class AbstractTest {
+	
+    String mapToJson(Object obj) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(obj);
+    }
 
 	Article getStub1Article() {
 		String id = "gram.pl";
@@ -52,8 +57,19 @@ abstract class AbstractTest {
 		return new ArticleWrapper(articles).setQuery(query);
 	}
 	
-    String mapToJson(Object obj) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(obj);
-    }
+	User getStub1User() {
+		return new User(1L, "Number1", "password", "health");
+	}
+	
+	User getStub2User() {
+		return new User(2L, "SecondUser", "abcdef", "business");
+	}
+
+	User getStub3User() {
+		return new User(3L, "NoFavouriteCategory", "1234456789", null);
+	}
+	
+	User getStub4User() {
+		return new User(4L, "TheFourth", "asdffghl", "sports");
+	}
 }
