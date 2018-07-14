@@ -89,7 +89,7 @@ include::{snippets}/get-articles-by-query/curl-request.adoc[]
 
 ==== Path parameters
 
-include::{snippets}/get-articles-by-country-and-category/path-parameters.adoc[]
+include::{snippets}/get-articles-by-query/path-parameters.adoc[]
 
 ==== Response structure
 
