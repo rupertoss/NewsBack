@@ -24,6 +24,8 @@ class UserService {
 		if(user.getId() != null) 
 			throw new EntityExistsException("The id attribute must be null to persist a new entity.");
 		
+		if(user.getPassword().length() < 6)
+			throw new IllegalArgumentException("The username should be at least 6 characters long");
 		if(user.getUsername().length() > 32)
 			throw new IllegalArgumentException("The username should be no longer than 32");
 		
@@ -50,6 +52,6 @@ class UserService {
 	private void checkForExisting(Long id) {
 		Optional<User> user = userRepository.findById(id);
 		if(!user.isPresent())
-			throw new EntityNotFoundException("There is no vehicle with specified id.");
+			throw new EntityNotFoundException("There is no user with specified id.");
 	}
 }

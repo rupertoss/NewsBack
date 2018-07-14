@@ -41,7 +41,7 @@ public class ControllerTest extends AbstractTest {
 		String country = "pl";
 		String category = "technology";
 		
-		ArticleWrapper articleWrapper = getStubArticleWrapperByCountryAndCategory();
+		ArticleWrapper articleWrapper = getArticleWrapperByCountryAndCategoryStub();
 		String stubAsString = mapToJson(articleWrapper);
 		
 		when(artFetch.getArticlesByCountryAndCategory(country, category)).thenReturn(articleWrapper);
@@ -62,7 +62,7 @@ public class ControllerTest extends AbstractTest {
 	public void testGetArticlesByQuery_shouldRespondStatus200_whenValidRequest() throws Exception {
 		String query = "ohio";
 		
-		ArticleWrapper articleWrapper = getStubArticleWrapperByQuery();
+		ArticleWrapper articleWrapper = getArticleWrapperByQueryStub();
 		String stubAsString = mapToJson(articleWrapper);
 		
 		when(artFetch.getArticlesByQuery(query)).thenReturn(articleWrapper);

@@ -6,8 +6,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "users")
@@ -15,16 +17,20 @@ class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JsonProperty("id")
 	private Long id;
 	
-	@NotBlank
-	@Size(max = 32)
+	@Size(min = 6, max = 32)
+//	@NotBlank
+	@JsonProperty("username")
 	private String username;
 	
 	@Size(min = 6, max = 32)
+	@JsonIgnore
 	private String password;
 	
 	@Column(name = "fav_category")
+	@JsonProperty("favouriteCategory")
 	private String favouriteNewsCategory;
 	
 	User() {
@@ -58,7 +64,6 @@ class User {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		return result;
 	}
 

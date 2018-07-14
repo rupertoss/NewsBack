@@ -1,10 +1,13 @@
 package com.robertrakoski.news;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 abstract class AbstractTest {
@@ -13,8 +16,14 @@ abstract class AbstractTest {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(obj);
     }
+    
+    <T> T mapFromJson(String json, Class<T> clazz)
+            throws JsonParseException, JsonMappingException, IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(json, clazz);
+    }
 
-	Article getStub1Article() {
+	Article getArticleStub1() {
 		String id = "gram.pl";
 		String name = "Gram.pl";
 		Source source = new Source(id, name);
@@ -27,7 +36,7 @@ abstract class AbstractTest {
 		return new Article(source, author, title, description, articleUrl, imageUrl, date);
 	}
 	
-	Article getStub2Article() {
+	Article getArticleStub2() {
 		String id = "interia.pl";
 		String name = "Interia.pl";
 		Source source = new Source(id, name);
@@ -40,36 +49,36 @@ abstract class AbstractTest {
 		return new Article(source, author, title, description, articleUrl, imageUrl, date);
 	}
 	
-	ArticleWrapper getStubArticleWrapperByCountryAndCategory() {
+	ArticleWrapper getArticleWrapperByCountryAndCategoryStub() {
 		String country = "pl";
 		String category = "technology";
 		List<Article> articles = new LinkedList<>();
-		articles.add(getStub1Article());
-		articles.add(getStub2Article());
+		articles.add(getArticleStub1());
+		articles.add(getArticleStub2());
 		return new ArticleWrapper(articles).setCountry(country).setCategory(category);
 	}
 	
-	ArticleWrapper getStubArticleWrapperByQuery() {
+	ArticleWrapper getArticleWrapperByQueryStub() {
 		String query = "ohio";
 		List<Article> articles = new LinkedList<>();
-		articles.add(getStub1Article());
-		articles.add(getStub2Article());
+		articles.add(getArticleStub1());
+		articles.add(getArticleStub2());
 		return new ArticleWrapper(articles).setQuery(query);
 	}
 	
-	User getStub1User() {
+	User getUserStub1() {
 		return new User(1L, "Number1", "password", "health");
 	}
 	
-	User getStub2User() {
+	User getUserStub2() {
 		return new User(2L, "SecondUser", "abcdef", "business");
 	}
 
-	User getStub3User() {
+	User getUserStub3() {
 		return new User(3L, "NoFavouriteCategory", "1234456789", null);
 	}
 	
-	User getStub4User() {
+	User getUserStub4() {
 		return new User(4L, "TheFourth", "asdffghl", "sports");
 	}
 }
