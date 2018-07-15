@@ -21,7 +21,6 @@ class User {
 	private Long id;
 	
 	@Size(min = 6, max = 32)
-//	@NotBlank
 	@JsonProperty("username")
 	private String username;
 	

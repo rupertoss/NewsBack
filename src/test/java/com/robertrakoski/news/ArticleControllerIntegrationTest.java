@@ -31,7 +31,7 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @WebAppConfiguration
-public class ControllerIntegrationTest {
+public class ArticleControllerIntegrationTest {
 
 	@Rule
 	public JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("target/generated-snippets");

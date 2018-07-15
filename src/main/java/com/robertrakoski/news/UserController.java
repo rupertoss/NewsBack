@@ -25,7 +25,6 @@ class UserController {
 	@GetMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> getUser(@PathVariable(value = "userId") Long userId) {
 		User user = userService.getById(userId);
-		System.out.println(user);
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	

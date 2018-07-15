@@ -51,9 +51,9 @@ public class UserControllerTest extends AbstractTest {
 		
 		when(userService.getById(userId)).thenReturn(user);
 		
-		String uri = "/users/{userId}";
+		String url = "/users/{userId}";
 		
-		MvcResult result = mvc.perform(get(uri, userId)).andReturn();
+		MvcResult result = mvc.perform(get(url, userId)).andReturn();
 		
 		int status = result.getResponse().getStatus();
 		String content = result.getResponse().getContentAsString();
@@ -70,9 +70,9 @@ public class UserControllerTest extends AbstractTest {
 		
 		when(userService.getById(userId)).thenThrow(new EntityNotFoundException());
 		
-		String uri = "/users/{userId}";
+		String url = "/users/{userId}";
 		
-		MvcResult result = mvc.perform(MockMvcRequestBuilders.get(uri, userId)).andReturn();
+		MvcResult result = mvc.perform(MockMvcRequestBuilders.get(url, userId)).andReturn();
 		
 		int status = result.getResponse().getStatus();
 		String content = result.getResponse().getContentAsString();
@@ -87,11 +87,11 @@ public class UserControllerTest extends AbstractTest {
 		
 		when(userService.create(any(User.class))).thenReturn(user);
 		
-		String uri = "/users";
+		String url = "/users";
 		String inputJson = mapToJson(user);
 		
 		MvcResult result = mvc.perform(MockMvcRequestBuilders
-								.post(uri).contentType(MediaType.APPLICATION_JSON_VALUE)
+								.post(url).contentType(MediaType.APPLICATION_JSON_VALUE)
 								.accept(MediaType.APPLICATION_JSON_VALUE)
 								.content(inputJson))
 								.andReturn();
@@ -105,5 +105,6 @@ public class UserControllerTest extends AbstractTest {
 		User createdUser = mapFromJson(content, User.class);
 		
 		assertNotNull("expected not null entity", createdUser);
+		assertTrue("expected body to match", user.toString().equals(createdUser.toString()));
 	}
 }

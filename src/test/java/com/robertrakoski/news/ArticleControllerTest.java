@@ -20,9 +20,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(Controller.class)
+@WebMvcTest(ArticleController.class)
 @AutoConfigureWebMvc
-public class ControllerTest extends AbstractTest {
+public class ArticleControllerTest extends AbstractTest {
 
 	@Rule
 	public MockitoRule rule = MockitoJUnit.rule();
@@ -34,7 +34,7 @@ public class ControllerTest extends AbstractTest {
 	ArticleFetcher artFetch;
 	
 	@InjectMocks
-	Controller controller;
+	ArticleController controller;
 	
 	@Test
 	public void testGetArticlesByCountryAndCategory_shouldRespondStatus200_whenValidRequest() throws Exception {

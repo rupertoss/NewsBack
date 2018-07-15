@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/news")
 @CrossOrigin(origins = "*")
-public class Controller {
+public class ArticleController {
 	
 	@Autowired
 	ArticleFetcher articleFetcher;
